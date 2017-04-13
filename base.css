@@ -1,0 +1,137 @@
+html,body{margin: 0;padding: 0;font-size: 62.5%;font-family: "Î¢ÈíÑÅºÚ";background: #eaeaea  }
+a{display: inline-block;text-decorationnone:none;}
+ul,li{list-style: none;}
+p{margin: 0px; padding: 0px}
+input,button{border: 0;margin: 0;padding: 0}
+
+@font-face {
+    font-family: 'iconfont';
+    src: url('http://at.alicdn.com/t/font_1475572925_0258255.eot'); /* IE9*/
+    src: url('http://at.alicdn.com/t/font_1475572925_0258255.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+    url('http://at.alicdn.com/t/font_1475572925_0258255.woff') format('woff'), /* chrome¡¢firefox */
+    url('http://at.alicdn.com/t/font_1475572925_0258255.ttf') format('truetype'), /* chrome¡¢firefox¡¢opera¡¢Safari, Android, iOS 4.2+*/
+    url('http://at.alicdn.com/t/font_1475572925_0258255.svg#iconfont') format('svg'); /* iOS 4.1- */
+}
+
+
+
+
+
+.iconfont{font-family:"iconfont";
+
+font-size:16px;font-style:normal;}
+
+header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 55px;
+    background: #1f272a;
+    color: #fff;
+    width: 100%;
+    position: fixed;
+    top: 0px;
+
+}
+
+header a i.iconfont {
+    font-size: 1.8rem;
+    font-weight: bold;
+}
+
+header a:nth-child(1){
+    margin-left: 5%;
+}
+
+header a:nth-child(1):after{
+    content: "";
+    width: 1px;
+    height: 2.2rem;
+    background: black;
+    margin-left: 12px;
+    position: absolute;
+    top:15px
+}
+
+header a:last-child{
+    margin-right: 5%;
+}
+
+header div{
+    width: 100%;
+    padding-left: 2rem;
+    font-size: 1.8rem;
+    height: 2.2rem;
+    line-height: 2.6rem;
+}
+
+footer{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    bottom: 0px;
+    left: 0px;
+    background: #f4f4f4;
+    padding-top: 1rem;
+}
+
+footer a{
+    flex: 1;
+    text-align: center;
+    font-size: 14px;
+    color: #b3b3b3;
+}
+
+footer a i.iconfont{
+    font-size: 26px;
+}
+
+footer a p {
+    padding: 5px;
+}
+
+.bkred{
+    background: #fb5931;
+}
+
+.bkorange{
+    background:#fca221;
+}
+
+.bkgreen{
+    background: #9bc733;
+}
+
+.bkrrange{
+    background:#ff4401;
+}
+
+.bkwhite{
+    background:#fff;
+}
+
+.bkgray{
+ background: #7b7574;
+}
+
+.bkopal{
+    background: #fcfafb;
+}
+
+.clrrange{
+    color:#ff4401;
+}
+
+.clfff{
+    color: #fff;
+}
+
+.notborder{
+    border: 0 !important;
+}
+
+.bottom_ccc{
+    border-bottom: 1px #dad8d8 solid;
+}
