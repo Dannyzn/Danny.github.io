@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+    //React.js 中一切皆组件，用 React.js 写的其实就是 React.js 组件。我们在编写 React.js 组件的时候，
+    //一般都需要继承 React.js 的 Component（还有别的编写组件的方式我们后续会提到）。
+    //一个组件类必须要实现一个 render 方法，这个 render 方法必须要返回一个 JSX 元素。但这里要注意的是，
+    //必须要用一个外层的 JSX 元素把所有内容包裹起来。返回并列多个 JSX 元素是不合法的，下面是错误的做法：
+    
+    render () {
+        return (
+            <div></div>
+            <div></div>
+        )
+    }
+
+    // 必须要用一个外层元素把内容进行包裹：
+
+    render () {
+        return (
+            <div>
+                <div></div>
+            </div>
+        )
+    }
+
+    // 表达式的插入 
+    // 在 JSX 当中你可以插入 JavaScript 的表达式，表达式返回的结果会相应地渲染到页面上。表达式用 {} 包裹
+
+    render () {
+        const word = 'is good'
+        return (
+            <div>
+                <h1>React 小书{word}</h1>
+            </div>
+        )
+    }
+
+    // 表达式插入不仅仅可以用在标签内部，也可以用在标签的属性上
+
+    render () {
+        const className = 'header'
+        return (
+            <div className={className}>
+                <h1>React 小书</h1>
+            </div>
+        )
+    }
+
+    // 注意，直接使用 class 在 React.js 的元素上添加类名如 <div class=“xxx”> 这种方式是不合法的。因为 class 是 JavaScript 的关键字，
+    // 所以 React.js 中定义了一种新的方式：className 来帮助我们给元素添加类名。
+
+    // 还有一个特例就是 for 属性，例如 <label for='male'>Male</label>，因为 for 也是 JavaScript 的关键字，所以在 JSX 用 htmlFor 替代，
+    // 即 <label htmlFor='male'>Male</label>。而其他的 HTML 属性例如 style 、data-* 等就可以像普通的 HTML 属性那样直接添加上去。
+
+    // 条件返回
+    // {} 上面说了，JSX 可以放置任何表达式内容。所以也可以放 JSX，实际上，我们可以在 render 函数内部根据不同条件返回不同的 JSX
+
+    render () {
+        const isGoodWord = true
+        return (
+            <div>
+                <h1>
+                    React 小书
+                    {isGoodWord
+                    ? <strong> is good</strong>
+                    : <span> is not good</span>
+                    }
+                </h1>
+            </div>
+        )
+    }
+
+    //  上面的代码中定义了一个 isGoodWord 变量为 true，下面有个用 {} 包含的表达式，根据 isGoodWord 的不同返回不同的 JSX 内容。
+    //现在页面上是显示 React 小书 is good。如果你把 isGoodWord 改成 false 然后再看页面上就会显示 React 小书 is not good。
+    
+    // 如果你在表达式插入里面返回 null ，那么 React.js 会什么都不显示，相当于忽略了该表达式插入。结合条件返回的话，
+    // 我们就做到显示或者隐藏某些元素：
+    render () {
+        const isGoodWord = true
+        return (
+            <div>
+                <h1>
+                    React 小书
+                    {isGoodWord
+                    ? <strong> is good</strong>
+                    :null
+                    }
+                </h1>
+            </div>
+        )
+    }
+
+    //  这样就相当于在 isGoodWord 为 true 的时候显示 <strong>is good</strong>，否则就隐藏
+
+    // JSX 元素变量
+    // 同样的，如果你能理解 JSX 元素就是 JavaScript 对象。那么你就可以联想到，JSX 元素其实可以像 JavaScript 对象那样自由地赋值给变量，
+    // 或者作为函数参数传递、或者作为函数的返回值。
+
+    render () {
+        const isGoodWord = true
+        const goodWord = <strong> is good </strong>
+        const badWord = <span> is not good </span>
+        return (
+            <div>
+                <h1>
+                    React 小书
+                    {isGoodWord ? goodWord : badWord}
+                </h1>
+            </div>
+        )
+    }
+
+    // 使用 React.js 构建一个未读消息组件 Notification。
+
+    //通过 getNotificationsCount() 来获取未读消息的数量 ，如果有未读消息 N 条，而且 N > 0，那么 Notification 组件渲染显示：
+
+
+    // <span>有(N)条未读消息</span>
+    // 否则显示：
+
+    // <span>没有未读消息</span> 
+
+    // 函数 getNotifitionsCount 已经可以直接调用
+
+    class Notification extends Component {
+        render () {
+            // const N = 0
+            const N = getNotifitionsCount()
+            const readyAccept = <span>有(${n})条未读消息</span>
+            const notAccpet = <span>没有未读消息</span>
+            return (
+                <div>
+                <span>{N > 0 ? readyAccept : notAccpet}</span>
+                </div>
+            )
+        }
+    }
+
+    // 参考答案
+    class Notification extends React.Component {
+        render () {
+            const n = getNotificationsCount()
+            return (<span>{n > 0 ? '有(${n})条未读消息' : '没有未读消息'}</span>)
+        }
+    }
+
+    /*
+    用 JSX 完成两个变量的定义：
+
+    第一个变量 title 为一个具有类名为 title 的 <h1> 元素，其内容为 ScriptOJ；
+
+    第二个变量 page 为一个具有类名为 content 的 <div> 元素，将之前定义的 title 变量插入其中作为它的内容。
+
+    */
+    const title = <h1 className="title"></h1>
+    const page = <div className="content">{title}</div>
+
+    class Insert extends Component{
+        render() {
+            const title = <h1 className="title">ScriptOJ</h1>
+            const page = <div className="content">{title}</div>
+            return (
+                <div>{page}</div>
+            )
+        }
+    }
+
+
+    </script>
+</body>
+</html>
