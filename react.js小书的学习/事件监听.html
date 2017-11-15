@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>事件监听</title>
+</head>
+<body>
+    <script>
+    /*
+    在 React.js 里面监听事件是很容易的事情，你只需要给需要监听事件的元素加上属性类似于 
+    onClick、onKeyDown 这样的属性，例如我们现在要给 Title 加上点击的事件监听：
+    */
+    
+    class Title extends Component {
+        handleClickOnTitle () {
+            console.log('Click on title.')
+        }
+
+        render () {
+            return (
+                <h1 onClick = {this.handleClickOnTitle}>React 小书</h1>
+            )
+        }
+    }
+
+    /*
+    只需要给 h1 标签加上 onClick 的事件，onClick 紧跟着是一个表达式插入，这个表达式返回一个 Title 自己的一个实例方法。
+    当用户点击 h1 的时候，React.js 就会调用这个方法，所以你在控制台就可以看到 Click on title. 打印出来。
+
+    在 React.js 不需要手动调用浏览器原生的 addEventListener 进行事件监听。React.js 帮我们封装好了一系列的 on* 的属性，
+    当你需要为某个元素监听某个事件的时候，只需要简单地给它加上 on* 就可以了。而且你不需要考虑不同浏览器兼容性的问题，React.js 都帮我们封装好这些细节了。
+    */
+
+    // 没有经过特殊处理的话，这些 on* 的事件监听只能用在普通的 HTML 的标签上，而不能用在组件标签上。也就是说，<Header onClick={…} /> 这样的写法不会有什么效果的。
+    // 这一点要注意，但是有办法可以做到这样的绑定，以后我们会提及。现在只要记住一点就可以了：这些 on* 的事件监听只能用在普通的 HTML 的标签上，而不能用在组件标签
+
+    // Event 对象
+    // 和普通浏览器一样，事件监听函数会被自动传入一个 event 对象，这个对象和普通的浏览器 event 对象所包含的方法和属性都基本一致。
+
+    // 不同的是 React.js 中的 event 对象并不是浏览器提供的，而是它自己内部所构建的。React.js 将浏览器原生的 event 对象封装了一下，对外提供统一的 API 和属性，这样你就不用考虑不同浏览器的兼容性问题。
+
+    // 我们来尝试一下，这次尝试当用户点击 h1 的时候，把 h1 的 innerHTML 打印出来：
+
+    class Title extends Component {
+        handleClickOnTitle (e) {
+            console.log(e.target.innerHTML)
+        }
+
+        render () {
+            return (
+                <h1 onClick={this.handleClickOnTitle}>React 小书</h1>
+            )
+        }
+    }
+
+    // 再看看控制台，每次点击的时候就会打印‘React 小书’
+
+    // 关于事件中的 this
+    // 一般在某个类的实例方法里面的 this 指的就是这个实例的本身
+    //  但是你将上面的 handleClickOnTitle 中把 this 打印出来，你会看到 this 是 null 或者 undefined
+
+    /*
+    handleClickOnTitle (e) {
+        console.log(this)  // => null or undefined
+    }
+    */
+
+    // 这是因为 React.js 调用你所传给它的方法的时候，并不是通过对象方法的方式调用（this.handleClickOnTitle）
+    // 直接通过函数调用 （handleClickOnTitle），所以事件监听函数内并不能通过 this 获取到实例。
+
+
+    // 如果你想在事件函数当中使用当前的实例，你需要手动地将实例方法 bind 到当前实例上再传入给 React.js
+
+    class Title extends Component {
+        handleClickOnTitle (e) {
+            console.log(this)
+        }
+
+        render () {
+            return (
+                <h1 onClick={this.handleClickOnTitle.bind(this)}>React 小书</h1>
+            )
+        }
+    }
+
+    // bind 会把实例方法绑定到当前实例上，然后我们再把绑定后的函数传给 React.js 的 onClick 事件监听。
+    // 这时候你再看看，点击 h1 的时候，就会把当前的实例打印出来：
+    /*
+    Title
+        _reactInternalFiber
+        :
+        FiberNode
+        _reactInternalInstance
+        :
+        Object
+        context
+        :
+        Object
+        isMounted
+        :
+        (...)
+        props
+        :
+        Object
+        refs
+        :
+        Object
+        replaceState
+        :
+        (...)
+        state
+        :
+        null
+        updater
+        :
+        Object
+        __proto__
+        :
+        Compo
+    */
+
+    // 你也可以在 bind 的时候给事件监听函数传入一些参数
+    class Title extends Component {
+        handleClickOnTitle (word, e) {
+            console.log(this, word)
+        }
+
+        render () {
+            return (
+                <h1 onClick={this.handleClickOnTitle.bind(this, 'hello')}>react 小书</h1>
+            )
+        }
+    }
+
+    
+
+
+
+    
+    </script>
+</body>
+</html>

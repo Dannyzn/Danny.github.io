@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>this</title>
+</head>
+<body>
+    <script>
+    /*
+    在绝大多数情况下，函数的调用方式决定了this的值。this不能在执行期间被赋值，并且在每次函数被调用时this的值也可能会不同。
+    ES5引入了bind方法来设置函数的this值，而不用考虑函数如何被调用的，ES2015引入了支持this词法解析的箭头函数（它在闭合的执行上下文内设置this的值）
+    */
+    
+    // 全局上下文
+    // 无论是否在严格模式下， 在全局执行上下文中（在任何函数体外部）this 都指代全局对象
+
+    // 在浏览器中， window 对象同时也是全局对象
+    console.log( this === window);  // true
+
+    a = 37;
+    console.log(window.a);    // 
+
+    this.b = "MDN";
+    console.log(window.b)   // "MDN"
+    console.log(b)          // "MDN"
+
+    // 函数上下文
+    // 在函数内部， this的值取决于 函数被调用的方式
+
+    // 1. 直接调用
+    // 因为下面的代码不是在严格模式下执行，且this的值不是通过调用设置的的，所以this的值，默认指向全局对象
+
+    function f1() {
+        return this;
+    }
+    // 在浏览器中
+    f1() === window;   // 在浏览器中， 全局对象是 window
+
+    // 在 Node 中
+    // f1() === global;
+
+    // 然而，在严格模式下，this将保持他进入执行上下文时的值，所以下面的this将会默认为undefined。
+
+    function f2() {
+        "use strict";   // 这里是严格模式
+        return this;
+    }
+
+    f2() === undefined;  // true
+
+    // 所以，在严格模式下，如果this未在执行的上下文中定义，那它将会默认为undefined。
+
+    // 2. call 和 apply 方法
+    // 如果要想把 this 的值从一个 context 传到另一个， 就要用 call, 或者 apply 方法
+
+
+    // 一个对象可以作为call 和 apply 的第一个参数，并且this会绑定到这个对象
+    var obj = {a: 'Custom'};
+
+    // 这个属性是在global 对象定义的
+    var a = 'Global';
+
+    function whatsThis(arg) {
+        return this.a;  // this的值取决于函数的调用方式
+    }
+
+    whatsThis();          // 直接调用，      返回 "Global"
+    whatsThis.call(obj);  // 通过call调用，  返回 "Custom"
+    whatsThis.apply(obj); // 通过apply调用， 返回 "Custom"
+
+    //  当一个函数的函数体中使用了this关键字时，通过call()方法和apply()方法调用，this的值可以绑定到一个指定的对象上。
+    //  call()和apply()的所有函数都继承自Function.prototype 。
+
+    function add(c, d) {
+        return this.a + this.b + c + d;
+    }
+
+    var o = {a: 1, b: 3};
+
+    // 第一个参数是作为 "this" 使用的对象
+    // 后续参数作为参数传递给函数调用
+    add.call(o, 5, 7);   // 1 + 3 + 5 + 7 = 16
+
+    // 第一个参数也是作为 'this' 使用的对象
+    // 第二个参数是一个数组， 数组里的元素用作函数调用中的参数
+    add.apply(o, [10, 20]);   // 1 + 3 + 10 + 20 = 34
+    
+    //  使用 call 和 apply 函数的时候要注意，如果传递的 this 值不是一个对象，JavaScript 将会尝试使用内部 ToObject 操作将其转换为对象。
+    //  因此，如果传递的值是一个原始值比如 7 或 'foo' ，那么就会使用相关构造函数将它转换为对象，所以原始值 7 通过new Number(7)被转换为对象，
+    //  而字符串'foo'使用 new String('foo') 转化为对象
+
+    // 7 => new Number(7) 转换为对象
+    // 'foo' => new String('foo') 转换为对象
+
+    function bar() {
+        console.log(Object.prototype.toString.call(this));
+    }
+
+    // 原始值 7 被隐式转换为对象
+    bar.call(7);    // [object Number]
+    </script>
+</body>
+</html>
